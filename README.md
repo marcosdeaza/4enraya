@@ -5,59 +5,54 @@
 
 ---
 
-## 📅 Historial de Versiones
+## 📅 Historial del Proyecto
 
-### Versión 1.0 (27 de Noviembre): `4enraya27noviembre.cpp`
-Esta fue la implementación base del proyecto entregada para la evaluación inicial. Es una versión clásica de **Jugador vs Jugador (PvP)**.
+### Versión 1.0: Implementación Base (PvP)
+Esta fue la primera versión entregada (27 de Noviembre). Se trata de una implementación clásica de **Jugador contra Jugador** en consola.
 
-#### 🛠️ Conceptos de Clase Aplicados (Versión Base)
-El código se estructuró siguiendo los principios fundamentales vistos en clase:
+Para desarrollar la lógica del tablero, especialmente la simulación de la "gravedad" (que las fichas caigan al fondo), realicé una **investigación de código abierto**, analizando cómo otros desarrolladores resolvían la gestión de matrices en juegos de tablero.
 
-1.  **Programación Modular (Tema 7):**
-    * Uso estricto de funciones y prototipos para dividir el problema.
-    * Pasos de parámetros (arrays por referencia) para manipular el tablero.
-2.  **Datos Estructurados (Tema 6):**
-    * Uso de **Matrices** (`char tablero[FILAS][COLUMNAS]`) para representar el juego.
-3.  **Estructuras de Control (Tema 5):**
-    * Bucles `do-while` para validar la entrada del usuario.
-    * Bucles `for` anidados para la lógica de verificación de victoria.
-4.  **Tipos de Datos (Tema 4):**
-    * Uso de `const int` para evitar números mágicos en el tamaño del tablero.
+#### 🛠️ Conceptos Aplicados:
+* **Arrays Bidimensionales:** Gestión de coordenadas [fila][columna] (Tema 6).
+* **Bucles Anidados:** Para la verificación de victoria (horizontal, vertical y diagonal).
+* **Validación de Entradas:** Uso de `do-while` para asegurar que el usuario no introduce columnas erróneas.
 
----
-
-### 🎄 Versión 2.0 (Actualización Navideña): `4enraya_IA.cpp`
-
-Para mejorar el proyecto durante las vacaciones, me planteé el reto de poder jugar solo contra la máquina.
+### 🎄 Versión 2.0: Actualización con IA (PvE)
+Durante las vacaciones, decidí ampliar el proyecto implementando un modo **Jugador vs Máquina**.
 
 > *"¿Por qué limitarse a jugar contra otra persona cuando puedes enseñar a la máquina a jugar?"*
 
 ![Meme PvP vs IA](https://i.ibb.co/hRqL5mxQ/imagen-2026-01-17-130215675.png)
 
-#### 🚀 Novedades: Inteligencia Artificial Heurística
-En lugar de conectar una API externa (que requeriría librerías no vistas en clase), he desarrollado un **Algoritmo Lógico** basado puramente en los conceptos de la asignatura.
+Para esta fase, utilicé herramientas de **Inteligencia Artificial Generativa** como asistente de programación. La IA me ayudó a:
+1.  Optimizar la estructura de las funciones (refactorización).
+2.  Diseñar el **algoritmo heurístico** de bloqueo y ataque (la "inteligencia" de la máquina).
+3.  Depurar errores lógicos en los bucles de comprobación de victoria.
 
-**¿Cómo piensa la Máquina?**
-La función `pensarJugadaMaquina()` utiliza "simulaciones" mediante bucles y condicionales:
+---
 
-1.  **Prioridad 1: ATAQUE (Ganar)**
-    * La máquina recorre el array del tablero "imaginando" que pone su ficha en cada columna.
-    * Si detecta que esa jugada provoca una victoria inmediata (llamando a `comprobarVictoria`), la ejecuta.
-    
-2.  **Prioridad 2: DEFENSA (Bloquear)**
-    * Si no puede ganar, simula qué haría el jugador humano en el siguiente turno.
-    * Si descubre que el humano ganaría en una columna específica, la máquina coloca su ficha ahí para **bloquear**.
+## 📚 Bibliografía y Recursos Externos
 
-3.  **Prioridad 3: EXPLORACIÓN (Aleatorio)**
-    * Si no hay victorias ni derrotas inminentes, utiliza `rand()` (librería `cstdlib`) para jugar en una columna válida al azar, haciendo el juego impredecible.
+Para la realización de este proyecto, se han consultado y analizado las siguientes fuentes de información y repositorios de código abierto:
+
+### 🔍 Investigación y Lógica Base (Gravedad y Tablero)
+La lógica de caída de fichas y la estructura del tablero se basaron en el estudio de hilos de discusión y repositorios educativos:
+
+* **StackOverflow:** *Checking Winner in connect 4 C++ Algorithm* (Fuente de inspiración para los 4 bucles de comprobación de victoria).
+* **StackOverflow:** *Placing a piece in a connect four game using C++* (Referencia para la lógica de "gravedad" invertida en los arrays).
+* **GitHub (Repositorios de referencia):**
+    * `sharktrexer/Connect-Four-Console-App`: Análisis de estructura básica de consola.
+    * `MichaelEstes/Connect-4`: Consulta sobre gestión de turnos.
+
+### 🤖 Herramientas de Desarrollo
+* **Generación de Código:** Uso de LLMs (Modelos de Lenguaje) para la generación de la lógica de la IA heurística y limpieza del código.
+* **Entorno:** CLion / Visual Studio Code con compilador MinGW (G++).
 
 ---
 
 ## 🎮 Cómo Compilar y Jugar
 
-Puedes compilar cualquiera de las dos versiones con `g++`:
-
-**Para la versión clásica:**
+**Para la versión clásica (PvP):**
 ```bash
 g++ 4enraya27noviembre.cpp -o 4enRaya_Clasico
 ./4enRaya_Clasico
