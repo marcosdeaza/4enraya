@@ -26,7 +26,7 @@ El código se estructuró siguiendo los principios fundamentales vistos en clase
 
 ---
 
-### 🎄 Versión 2.0 (Actualización Navideña): `4enraya_IA.cpp`
+### 🎄 Versión 2.0 (Actualización Navideña): `4enraya.cpp`
 
 Para mejorar el proyecto durante las vacaciones, me planteé el reto de poder jugar solo contra la máquina.
 
