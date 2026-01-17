@@ -1,36 +1,63 @@
-# 4 en Raya - Proyecto de C++
+# 4 en Raya - Proyecto de C++ (Evolutivo)
 
 **Autor:** Marcos de Aza  
 **Asignatura:** Fundamentos de Programación
 
-## 📖 Descripción
-Este proyecto es una implementación del clásico juego de mesa **"Conecta 4"** (4 en Raya) desarrollado en C++ para consola. El objetivo es alinear cuatro fichas del mismo tipo (horizontales, verticales o diagonales) antes que el oponente.
+---
 
-El código ha sido estructurado siguiendo los principios de la **programación modular** y **estructurada** vistos en clase.
+## 📅 Historial de Versiones
 
-## 🛠️ Conceptos de Clase Aplicados
+### Versión 1.0 (27 de Noviembre): `4enraya27noviembre.cpp`
+Esta fue la implementación base del proyecto entregada para la evaluación inicial. Es una versión clásica de **Jugador vs Jugador (PvP)**.
 
-Este proyecto pone en práctica los conocimientos adquiridos en los siguientes temas:
+#### 🛠️ Conceptos de Clase Aplicados (Versión Base)
+El código se estructuró siguiendo los principios fundamentales vistos en clase:
 
-### 1. Programación Modular (Tema 7)
-Se ha evitado escribir todo el código en el `main`. En su lugar, se ha dividido el problema en subproblemas más pequeños y manejables.
-- **Uso de Prototipos:** Se definen las cabeceras de las funciones antes del `main` para informar al compilador antes de su uso.
-- **Funciones Específicas:**
-  - `dibujarTablero()`: Procedimiento (`void`) que se encarga de la salida por pantalla.
-  - `comprobarVictoria()`: Función que devuelve un valor booleano (`true` o `false`) indicando si alguien ganó.
-- **Paso de Parámetros:** Se pasan arrays como argumentos a las funciones para operar sobre el tablero.
+1.  **Programación Modular (Tema 7):**
+    * Uso estricto de funciones y prototipos para dividir el problema.
+    * Pasos de parámetros (arrays por referencia) para manipular el tablero.
+2.  **Datos Estructurados (Tema 6):**
+    * Uso de **Matrices** (`char tablero[FILAS][COLUMNAS]`) para representar el juego.
+3.  **Estructuras de Control (Tema 5):**
+    * Bucles `do-while` para validar la entrada del usuario.
+    * Bucles `for` anidados para la lógica de verificación de victoria.
+4.  **Tipos de Datos (Tema 4):**
+    * Uso de `const int` para evitar números mágicos en el tamaño del tablero.
 
-### 2. Datos Estructurados: Arrays Multidimensionales (Tema 6)
-El tablero de juego no es una lista simple, sino una **Matriz** (Array Bidimensional) de 6 filas por 7 columnas.
-- **Declaración:** `char tablero[FILAS][COLUMNAS];`
-- **Acceso:** Se utilizan dos índices (fila y columna) para localizar cada celda, tal como se requiere para estructuras tipo tabla.
+---
 
-### 3. Estructuras de Control (Tema 5)
-El flujo del juego se controla mediante diversas estructuras lógicas:
-- **Bucle `do-while`:** Se utiliza para el turno del jugador y la validación de la columna, garantizando que el código se ejecute al menos una vez (pedir ficha) hasta que la entrada sea válida.
-- **Bucles `for` anidados:** Esenciales para recorrer la matriz completa (dibujar tablero, buscar victorias).
-- **Condicionales `if-else`:** Para verificar límites del tablero, columnas llenas y cambios de turno.
+### 🎄 Versión 2.0 (Actualización Navideña): `4enraya_IA.cpp`
 
-### 4. Tipos de Datos y Constantes (Tema 4)
-- **Constantes:** Se definen `FILAS` y `COLUMNAS` como `const int` para evitar "números mágicos" y facilitar el mantenimiento.
-- **Booleanos:** Uso de variables `bool` (`juegoTerminado`, `fichaColocada`) para controlar los estados lógicos del programa.
+Para mejorar el proyecto durante las vacaciones, me planteé el reto de poder jugar solo contra la máquina.
+
+> *"¿Por qué limitarse a jugar contra otra persona cuando puedes enseñar a la máquina a jugar?"*
+
+![Meme PvP vs IA](https://i.ibb.co/hRqL5mxQ/imagen-2026-01-17-130215675.png)
+
+#### 🚀 Novedades: Inteligencia Artificial Heurística
+En lugar de conectar una API externa (que requeriría librerías no vistas en clase), he desarrollado un **Algoritmo Lógico** basado puramente en los conceptos de la asignatura.
+
+**¿Cómo piensa la Máquina?**
+La función `pensarJugadaMaquina()` utiliza "simulaciones" mediante bucles y condicionales:
+
+1.  **Prioridad 1: ATAQUE (Ganar)**
+    * La máquina recorre el array del tablero "imaginando" que pone su ficha en cada columna.
+    * Si detecta que esa jugada provoca una victoria inmediata (llamando a `comprobarVictoria`), la ejecuta.
+    
+2.  **Prioridad 2: DEFENSA (Bloquear)**
+    * Si no puede ganar, simula qué haría el jugador humano en el siguiente turno.
+    * Si descubre que el humano ganaría en una columna específica, la máquina coloca su ficha ahí para **bloquear**.
+
+3.  **Prioridad 3: EXPLORACIÓN (Aleatorio)**
+    * Si no hay victorias ni derrotas inminentes, utiliza `rand()` (librería `cstdlib`) para jugar en una columna válida al azar, haciendo el juego impredecible.
+
+---
+
+## 🎮 Cómo Compilar y Jugar
+
+Puedes compilar cualquiera de las dos versiones con `g++`:
+
+**Para la versión clásica:**
+```bash
+g++ 4enraya27noviembre.cpp -o 4enRaya_Clasico
+./4enRaya_Clasico
