@@ -1,81 +1,63 @@
-# PROYECTO FINAL: MOTOR LÓGICO DE "CONECTA 4" EN C++
+# 4 en Raya - Proyecto de C++ (Evolutivo)
 
-**Asignatura:** Fundamentos de Programación  
 **Autor:** Marcos de Aza  
-**Curso Académico:** 2025-2026  
-**Lenguaje:** C++ (ISO Standard)
+**Asignatura:** Fundamentos de Programación
 
 ---
 
-## 1. RESUMEN EJECUTIVO
-Este proyecto consiste en el diseño, implementación y documentación de una aplicación de software que simula el juego de mesa "Conecta 4". El sistema permite dos modalidades de ejecución: **Jugador vs Jugador (PvP)** y **Jugador vs Entorno (PvE)**, implementando en esta última un algoritmo heurístico de toma de decisiones.
+## 📅 Historial de Versiones
 
-El desarrollo se ha regido estrictamente por los paradigmas de la **Programación Estructurada** y **Modular**, cumpliendo con los requisitos académicos establecidos en el plan de estudios.
+### Versión 1.0 (27 de Noviembre): `4enraya27noviembre.cpp`
+Esta fue la implementación base del proyecto entregada para la evaluación inicial. Es una versión clásica de **Jugador vs Jugador (PvP)**.
 
----
+#### 🛠️ Conceptos de Clase Aplicados (Versión Base)
+El código se estructuró siguiendo los principios fundamentales vistos en clase:
 
-## 2. ARQUITECTURA DEL SOFTWARE
-
-El código sigue una arquitectura monolítica modular, dividida en capas lógicas de procesamiento.
-
-### 2.1. Estructuras de Datos (Tema 6)
-La representación del estado del juego se basa en **Arrays Multidimensionales** estáticos.
-- **Matriz:** `char tablero[6][7]`.
-- **Justificación:** Se opta por memoria estática (Stack) frente a dinámica (Heap) debido a que las dimensiones del tablero son constantes e invariables durante la ejecución, optimizando así el acceso a memoria.
-
-### 2.2. Control de Flujo y Algoritmia (Tema 5)
-El motor del juego utiliza estructuras de control iterativas anidadas para:
-1.  **Recorrido Matricial:** Búsqueda de patrones de victoria (Horizontal, Vertical, Diagonal).
-2.  **Gestión de Turnos:** Bucle `do-while` principal que garantiza la persistencia del estado hasta la condición de parada (Victoria o Empate).
-
-### 2.3. Modularidad (Tema 7)
-Se aplica el principio de *Divide y Vencerás*. El `main` actúa únicamente como orquestador, delegando la lógica en funciones especializadas:
-* `introducirFicha()`: Gestiona la lógica de gravedad inversa (llenado de abajo a arriba).
-* `comprobarVictoria()`: Algoritmo de verificación de patrones.
-* `pensarJugadaMaquina()`: Motor de decisión de la IA.
+1.  **Programación Modular (Tema 7):**
+    * Uso estricto de funciones y prototipos para dividir el problema.
+    * Pasos de parámetros (arrays por referencia) para manipular el tablero.
+2.  **Datos Estructurados (Tema 6):**
+    * Uso de **Matrices** (`char tablero[FILAS][COLUMNAS]`) para representar el juego.
+3.  **Estructuras de Control (Tema 5):**
+    * Bucles `do-while` para validar la entrada del usuario.
+    * Bucles `for` anidados para la lógica de verificación de victoria.
+4.  **Tipos de Datos (Tema 4):**
+    * Uso de `const int` para evitar números mágicos en el tamaño del tablero.
 
 ---
 
-## 3. CRONOLOGÍA Y EVOLUCIÓN DEL DESARROLLO
+### 🎄 Versión 2.0 (Actualización Navideña): `4enraya_IA.cpp`
 
-El proyecto se ha desarrollado en dos fases incrementales, siguiendo un modelo de ciclo de vida evolutivo.
+Para mejorar el proyecto durante las vacaciones, me planteé el reto de poder jugar solo contra la máquina.
 
-### Fase 1: Motor Base PvP (27 Noviembre)
-**Objetivo:** Implementación de la lógica fundamental y gestión de memoria.
-* **Hito:** Validación de la lógica de "gravedad" en la matriz y detección de 4 en línea.
-* **Estado:** Funcional y validado. (Ver `4enraya27noviembre.cpp`).
+> *"¿Por qué limitarse a jugar contra otra persona cuando puedes enseñar a la máquina a jugar?"*
 
-### Fase 2: Implementación de Agente Inteligente (Periodo Vacacional)
-**Objetivo:** Desarrollo de un algoritmo capaz de competir contra el usuario.
-* **Desafío:** Crear un comportamiento "inteligente" sin utilizar librerías externas ni redes neuronales, limitándose a las estructuras de control vistas en clase.
-* **Solución:** Algoritmo Heurístico de Bloqueo y Ataque.
+![Meme PvP vs IA](https://i.ibb.co/hRqL5mxQ/imagen-2026-01-17-130215675.png)
 
-> *Esquema conceptual de la evolución del módulo de IA:*
-> ![Evolución IA](https://i.ibb.co/hRqL5mxQ/imagen-2026-01-17-130215675.png)
+#### 🚀 Novedades: Inteligencia Artificial Heurística
+En lugar de conectar una API externa (que requeriría librerías no vistas en clase), he desarrollado un **Algoritmo Lógico** basado puramente en los conceptos de la asignatura.
 
----
+**¿Cómo piensa la Máquina?**
+La función `pensarJugadaMaquina()` utiliza "simulaciones" mediante bucles y condicionales:
 
-## 4. METODOLOGÍA Y RECURSOS TÉCNICOS
+1.  **Prioridad 1: ATAQUE (Ganar)**
+    * La máquina recorre el array del tablero "imaginando" que pone su ficha en cada columna.
+    * Si detecta que esa jugada provoca una victoria inmediata (llamando a `comprobarVictoria`), la ejecuta.
+    
+2.  **Prioridad 2: DEFENSA (Bloquear)**
+    * Si no puede ganar, simula qué haría el jugador humano en el siguiente turno.
+    * Si descubre que el humano ganaría en una columna específica, la máquina coloca su ficha ahí para **bloquear**.
 
-Para garantizar la robustez del código y aplicar las mejores prácticas de la industria, se ha seguido una metodología de **Investigación y Desarrollo (I+D)** apoyada en las siguientes fuentes:
-
-### 4.1. Ingeniería Inversa y Análisis de Código
-Para resolver la lógica de detección de victoria en diagonales (la parte más compleja algorítmicamente), se analizaron soluciones de código abierto en repositorios de referencia.
-* **Algoritmo de Victoria:** Adaptado de discusiones técnicas en *StackOverflow* sobre optimización de recorridos en matrices C++.
-* **Lógica de Gravedad:** Basada en el análisis del repositorio `Connect-4-Console` de GitHub, adaptando la lógica de punteros a índices de arrays para cumplir con el temario.
-
-### 4.2. Uso de Asistentes de IA Generativa
-Se utilizaron Modelos de Lenguaje (LLMs) como herramienta de soporte al desarrollo (Pair Programming) para:
-1.  **Refactorización:** Limpieza de código redundante y optimización de sintaxis.
-2.  **Generación de Escenarios:** La IA sugirió la lógica de "Simulación - Evaluación - Retroceso" usada en la función `pensarJugadaMaquina()`, permitiendo predecir movimientos sin alterar el estado real del tablero.
+3.  **Prioridad 3: EXPLORACIÓN (Aleatorio)**
+    * Si no hay victorias ni derrotas inminentes, utiliza `rand()` (librería `cstdlib`) para jugar en una columna válida al azar, haciendo el juego impredecible.
 
 ---
 
-## 5. MANUAL DE COMPILACIÓN
+## 🎮 Cómo Compilar y Jugar
 
-El proyecto no requiere dependencias externas (makefiles o librerías dinámicas). Se compila utilizando el estándar GNU C++.
+Puedes compilar cualquiera de las dos versiones con `g++`:
 
-**Compilación del Proyecto Final (con IA):**
+**Para la versión clásica:**
 ```bash
-g++ -o 4enRaya_Final 4enraya_IA.cpp
-./4enRaya_Final
+g++ 4enraya27noviembre.cpp -o 4enRaya_Clasico
+./4enRaya_Clasico
