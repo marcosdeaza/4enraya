@@ -96,6 +96,3 @@ Para la IA y la parte final de ficheros, usé herramientas para resolver dudas p
 * **Ficheros y Structs (Versión 3.0):**
     * **Lectura de espacios:** Busqué cómo leer caracteres individuales en un archivo de texto. Al ver que el operador `>>` se salta los espacios en blanco, se me ocurrió la idea de sustituirlos por un carácter visible (el punto) al guardar.
     * **Limpieza:** Pedí consejos sobre cómo organizar las variables globales en `structs` para que el profesor no me bajara nota por tener el `main` demasiado sucio.
-
----
-*Este documento certifica que, aunque he consultado dudas puntuales, entiendo perfectamente todo el código presentado y soy capaz de explicar cada función.*
