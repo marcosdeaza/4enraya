@@ -8,7 +8,7 @@
 ## 📅 Historial de Versiones
 
 ### Versión 1.0 (27 de Noviembre): `4enraya27noviembre.cpp`
-Esta fue la implementación base del proyecto entregada para la evaluación inicial. Es una versión clásica de **Jugador vs Jugador (PvP)**.
+Esta fue la implementación base del proyecto entregada para la evaluación inicial. Es una versión clásica de **Jugador vs Jugador (PvP)** en el tablero estándar.
 
 #### 🛠️ Conceptos de Clase Aplicados (Versión Base)
 El código se estructuró siguiendo los principios fundamentales vistos en clase:
@@ -42,41 +42,60 @@ La función `pensarJugadaMaquina()` utiliza "simulaciones" mediante bucles y con
 
 1.  **Prioridad 1: ATAQUE (Ganar)**
     * La máquina recorre el array del tablero "imaginando" que pone su ficha en cada columna.
-    * Si detecta que esa jugada provoca una victoria inmediata (llamando a `comprobarVictoria`), la ejecuta.
+    * Si detecta que esa jugada provoca una victoria inmediata, la ejecuta.
     
 2.  **Prioridad 2: DEFENSA (Bloquear)**
     * Si no puede ganar, simula qué haría el jugador humano en el siguiente turno.
     * Si descubre que el humano ganaría en una columna específica, la máquina coloca su ficha ahí para **bloquear**.
 
 3.  **Prioridad 3: EXPLORACIÓN (Aleatorio)**
-    * Si no hay victorias ni derrotas inminentes, utiliza `rand()` (librería `cstdlib`) para jugar en una columna válida al azar, haciendo el juego impredecible.
+    * Si no hay victorias ni derrotas inminentes, utiliza `rand()` para jugar en una columna válida al azar.
 
 ---
 
-## 📚 Bibliografía y Declaración de Recursos Externos
+### ⭐ Versión 3.0 (Entrega Final): `4enrayadef.cpp`
 
-Siguiendo los principios de honestidad académica e ingeniería, se documenta a continuación el origen de las soluciones lógicas implementadas, diferenciando entre desarrollo propio, investigación en repositorios y asistencia de IA.
+Para cerrar la asignatura, esta versión final organiza mejor el código y permite guardar los progresos, además de ampliar el tablero a uno más grande (9x9) para hacerlo más interesante.
 
-### 1. Investigación y Referencias (StackOverflow / GitHub)
-Para la mecánica base del juego (Versión 1.0), se consultaron fuentes externas para resolver la gestión de coordenadas en matrices:
+#### 💾 Novedades: Ficheros y Estructuras
+Ahora el juego es capaz de "recordar" cosas y el código está mucho más ordenado:
 
-* **Función `introducirFicha` (Gravedad):**
-    * *Fuente:* Hilos de StackOverflow sobre *"Gravity logic in Connect 4 C++ arrays"*.
-    * *Uso:* Adaptación del bucle `for` inverso (de `FILAS-1` a `0`) para lograr que la ficha "caiga" al fondo de la columna seleccionada, en lugar de quedarse arriba.
+1.  **Uso de Structs (`struct EstadoJuego`):**
+    * En las versiones anteriores tenía muchas variables sueltas por el `main` (nombres, turno, el tablero...).
+    * Para esta entrega lo he metido todo en una estructura. Así puedo pasar una sola variable a las funciones y el código se entiende mucho mejor.
 
-* **Función `comprobarVictoria` (Algoritmia):**
-    * *Fuente:* Repositorio de referencia `KeithGalli/Connect4-Python` (adaptado a C++).
-    * *Uso:* Implementación de los 4 bucles anidados independientes para verificar: Horizontal, Vertical, Diagonal Positiva y Diagonal Negativa. Se ajustaron los límites de los bucles (`COLUMNAS - 3`) para evitar errores de desbordamiento de memoria (*Segmentation Fault*).
+2.  **Guardar y Cargar Partida (`fstream`):**
+    * **Guardar:** Si el usuario escribe `-1`, el juego vuelca los datos al archivo `partida_guardada.txt`.
+        * *El truco de los puntos:* Tuve un problema porque al guardar el tablero con espacios vacíos, luego al leerlo el programa se saltaba los espacios. Lo solucioné haciendo que al guardar se escriban puntos `.` y al cargar se vuelvan a transformar en espacios.
+    * **Historial:** He añadido un archivo `historial_partidas.txt` que nunca se borra (usando `ios::app`) para llevar un registro de todos los ganadores desde que se ejecuta el programa.
 
-### 2. Uso de Asistentes de IA (Claude AI / LLMs)
-Para el desarrollo de la **Versión 2.0 (PvE)**, se utilizó Inteligencia Artificial Generativa como herramienta de soporte (*Pair Programming*) para los siguientes módulos específicos:
-
-* **Función `pensarJugadaMaquina` (Heurística):**
-    * *Consultas realizadas:* "Cómo hacer una IA simple para 3 en raya sin Minimax" y "Simular movimientos en arrays C++".
-    * *Implementación:* La IA sugirió la estructura lógica de **Simulación -> Verificación -> Retroceso** (Undo), que permite a la máquina poner una ficha temporalmente, ver si gana, y borrarla inmediatamente para restaurar el tablero.
-
-* **Limpieza y Refactorización:**
-    * Se utilizó el asistente para limpiar la indentación del código y optimizar los nombres de las variables, asegurando que el estilo cumpliera con los estándares de legibilidad de la asignatura (Clean Code).
+3.  **Tablero Ampliado (9x9):**
+    * Aprovechando el uso de constantes, he ampliado el tablero a 9 filas y 9 columnas para que las partidas duren un poco más y la estrategia sea más importante.
 
 ---
-*Este documento certifica que, aunque se han utilizado herramientas de apoyo e investigación, la comprensión y defensa de todo el código presentado corresponde al autor del proyecto.*
+
+## 📚 Bibliografía y Recursos Externos
+
+Siguiendo los principios de honestidad académica, documento aquí qué partes he investigado por mi cuenta o dónde he necesitado ayuda para avanzar.
+
+### 1. Investigación (Internet/StackOverflow)
+Para la versión inicial, busqué cómo gestionar la matriz:
+
+* **La gravedad de la ficha:**
+    * Consulté en foros cómo hacer que la ficha cayera al fondo. La solución fue recorrer el bucle `for` a la inversa (desde abajo hacia arriba).
+
+* **Comprobar victoria:**
+    * Me basé en lógica encontrada en repositorios de GitHub para entender cómo plantear los 4 bucles (horizontal, vertical y diagonales) sin salirme de los límites del array y que no diera error de ejecución.
+
+### 2. Uso de Apoyo (IA y Documentación)
+Para la IA y la parte final de ficheros, usé herramientas para resolver dudas puntuales:
+
+* **La Lógica de la Máquina:**
+    * Le pregunté a una IA cómo hacer una "IA tonta" sin usar algoritmos complejos tipo Minimax. Me dio la idea de "simular" la jugada (poner ficha -> ver si gana -> quitar ficha), que es lo que he implementado.
+
+* **Ficheros y Structs (Versión 3.0):**
+    * **Lectura de espacios:** Busqué cómo leer caracteres individuales en un archivo de texto. Al ver que el operador `>>` se salta los espacios en blanco, se me ocurrió la idea de sustituirlos por un carácter visible (el punto) al guardar.
+    * **Limpieza:** Pedí consejos sobre cómo organizar las variables globales en `structs` para que el profesor no me bajara nota por tener el `main` demasiado sucio.
+
+---
+*Este documento certifica que, aunque he consultado dudas puntuales, entiendo perfectamente todo el código presentado y soy capaz de explicar cada función.*
